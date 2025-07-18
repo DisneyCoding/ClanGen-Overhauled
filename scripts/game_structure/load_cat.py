@@ -32,6 +32,9 @@ def load_cats():
 
 
 def json_load():
+    Cat.all_cats.clear()
+    Cat.all_cats_list.clear()
+    Cat.dead_cats.clear()
     all_cats = []
     clanname = game.switches["clan_list"][0]
     clan_cats_json_path = f"{get_save_dir()}/{clanname}/clan_cats.json"
@@ -126,7 +129,7 @@ def json_load():
                 dark_patches_tint=(
                     cat["dark_patches_tint"]
                     if "dark_patches_tint" in cat
-                    else "offwhite"
+                    else "offdark"
                 ),
                 white_patches=cat["white_patches"],
                 dark_patches=cat["dark_patches"],
