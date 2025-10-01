@@ -634,7 +634,8 @@ class Cat:
         else:
             game.clan.add_to_unknown(self)
 
-        return
+        # mark the sprite as outdated
+        self.pelt.rebuild_sprite = True
 
     def exile(self):
         """This is used to send a cat into exile. This removes the cat's status and gives them a special 'exiled'
