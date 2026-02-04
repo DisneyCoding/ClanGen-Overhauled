@@ -12,6 +12,9 @@ DETAILS = {}
 SPRITES_USED = []
 EXPLICIT_PATROL_ART = None
 
+explicit_art = []
+has_patrol_sprite = []
+needs_patrol_sprite = []
 
 def get_patrol_details(path):
     global ALL_PATROLS
@@ -177,10 +180,6 @@ if "patrol ids" in task.casefold():
         print("All patrol IDs are unique. \n\n")
 
 if "patrol sprite" in task.casefold():
-
-    explicit_art = []
-    has_patrol_sprite = []
-    needs_patrol_sprite = []
 
     for ID in ALL_PATROLS:
         explicit, available, need = check_patrol_sprites(ID)
