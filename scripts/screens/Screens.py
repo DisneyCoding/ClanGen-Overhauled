@@ -91,6 +91,8 @@ class Screens:
             x_shift = 0
             y_shift = 0
 
+        cat_profiles()
+
         Screens.mns_ui_offset(x_shift, y_shift)
 
     def __init__(self, name=None):

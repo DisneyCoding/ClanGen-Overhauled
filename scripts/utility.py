@@ -2596,7 +2596,6 @@ def update_sprite(cat):
         # Don't update the sprite if the cat is faded.
         return
 
-    # apply
     cat.sprite = generate_sprite(cat)
     # update class dictionary
     cat.all_cats[cat.ID] = cat

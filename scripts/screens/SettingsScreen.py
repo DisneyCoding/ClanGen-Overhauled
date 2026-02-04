@@ -72,6 +72,7 @@ class SettingsScreen(Screens):
     tooltip_text = []
     info_text_index = "welcome"
     contributors_start = 0
+    cgo_start = 0
     with open("resources/credits_text.json", "r", encoding="utf-8") as f:
         credits_text = ujson.load(f)
     for string in credits_text["text"]:
@@ -90,6 +91,14 @@ class SettingsScreen(Screens):
                     )  # to account for the seniors and contributors tags we skip
 
                     continue
+                # CGO
+                elif contributor == "<CGO CONTRIBUTORS>":
+                    cgo_start = (
+                        i - 1
+                    )
+
+                    continue
+                # ---
                 info_text[info_text_index].append(contributor)
                 tooltip_text.append(credits_text["contrib"][contributor])
             info_text_index = "thanks"
@@ -556,13 +565,36 @@ class SettingsScreen(Screens):
 
         self.checkboxes_text["info_text_box"].disable()
         rows = [-200, 0, 200]
+
         contributors_block = False
+        cgo_block = False
+
         contributors_index = 0
+        cgo_index = 0
+
         final_row_seniors = self.contributors_start % 3
-        final_row_contribs = (len(self.tooltip_text) - self.contributors_start) % 3
+        final_row_contribs = self.cgo_start % 3
+
+        final_row_cgo = (len(self.tooltip_text) - self.cgo_start) % 3
+
         for i, tooltip in enumerate(self.tooltip_text):
             # determine position
-            if contributors_block:
+            if cgo_block:
+                # print(i, tooltip)
+                position = (
+                    (
+                        0
+                        if final_row_cgo == 1 and i == len(self.tooltip_text) - 1
+                        else rows[cgo_index % 3]
+                    ),
+                    (
+                        75
+                        if cgo_index
+                        < 3  # first rows have a bit of space below the header
+                        else 0
+                    ),
+                )
+            elif contributors_block:
                 position = (
                     (
                         0
@@ -590,6 +622,22 @@ class SettingsScreen(Screens):
                         else 0
                     ),
                 )
+            # CGO
+            top_anchor = self.checkboxes_text["info_text_seniors"]
+            if i < 3:
+                top_anchor = self.checkboxes_text["info_text_seniors"]
+            else:
+                top_anchor = top_anchor = self.tooltip[f"tip{(floor(i / 3) * 3) - 1}"]
+                if contributors_block:
+                    if contributors_index < 3:
+                        top_anchor =  self.checkboxes_text["info_text_contributors"]
+                    else:
+                        top_anchor = self.tooltip[f"tip{i - 3}"]
+
+                elif cgo_block:
+                    top_anchor = self.checkboxes_text["info_text_cgo"]
+
+            # ---
             self.tooltip[f"tip{i}"] = UIImageButton(
                 ui_scale(
                     pygame.Rect(
@@ -611,22 +659,7 @@ class SettingsScreen(Screens):
                 anchors={
                     "centerx": "centerx",
                     "top_target": (
-                        self.checkboxes_text["info_text_seniors"]  # seniors first row
-                        if i < 3
-                        else (
-                            self.tooltip[
-                                f"tip{(floor(i / 3) * 3) - 1}"
-                            ]  # seniors other rows
-                            if not contributors_block
-                            # contributor block
-                            else (
-                                self.checkboxes_text[
-                                    "info_text_contributors"
-                                ]  # contributors first row
-                                if contributors_index < 3
-                                else self.tooltip[f"tip{i - 3}"]
-                            )
-                        )
+                       top_anchor
                     ),  # contributors other rows
                 },
             )
@@ -652,9 +685,30 @@ class SettingsScreen(Screens):
                 )
                 contributors_block = True
 
+            if cgo_block:
+                cgo_index += 1
+            elif i == self.cgo_start - 1:
+                self.checkboxes_text["info_text_cgo"] = UISurfaceImageButton(
+                    ui_scale(pygame.Rect((0, 20), (300, 30))),
+                    "ClanGen Overhauled Credits",
+                    {
+                        "normal": get_button_dict(ButtonStyles.ROUNDED_RECT, (300, 30))[
+                            "normal"
+                        ]
+                    },
+                    object_id="@buttonstyles_rounded_rect",
+                    container=self.checkboxes_text["info_container"],
+                    manager=MANAGER,
+                    anchors={
+                        "centerx": "centerx",
+                        "top_target": self.tooltip[f"tip{self.cgo_start - 1}"],
+                    },
+                )
+                cgo_block = True
+
         self.checkboxes_text["info_text_thanks"] = pygame_gui.elements.UITextBox(
             self.info_text["thanks"].strip(),
-            ui_scale(pygame.Rect((0, 10), (575, -1))),
+            ui_scale(pygame.Rect((0, 40), (575, -1))),
             object_id=get_text_box_theme("#text_box_30_horizcenter"),
             container=self.checkboxes_text["info_container"],
             manager=MANAGER,

@@ -29,6 +29,7 @@ from scripts.utility import (
     get_current_season,
     clan_symbol_sprite,
     get_living_clan_cat_count,
+    update_sprite,
 )  # pylint: disable=redefined-builtin
 from scripts.events_module.future.future_event import FutureEvent
 
@@ -321,6 +322,8 @@ class Clan:
             if cat.ID in self.med_cat_list:
                 self.med_cat_list.remove(cat.ID)
                 self.med_cat_predecessors += 1
+            update_sprite(Cat.all_cats[cat.ID])
+
 
     def add_to_darkforest(self, cat):  # Same as add_cat
         """
@@ -336,7 +339,7 @@ class Clan:
             if cat.ID in self.med_cat_list:
                 self.med_cat_list.remove(cat.ID)
                 self.med_cat_predecessors += 1
-            # update_sprite(Cat.all_cats[str(cat)])
+            update_sprite(Cat.all_cats[cat.ID])
             # The dead-value must be set to True before the cat can go to starclan
 
     def add_to_unknown(self, cat):
@@ -354,6 +357,7 @@ class Clan:
             if cat.ID in self.med_cat_list:
                 self.med_cat_list.remove(cat.ID)
                 self.med_cat_predecessors += 1
+            update_sprite(Cat.all_cats[cat.ID])
 
     def add_to_clan(self, cat):
         """
@@ -740,7 +744,7 @@ class Clan:
                 game.clan.add_cat(game.clan.instructor)
         else:
             game.clan.instructor = Cat(status=choice(["warrior", "warrior", "elder"]))
-            # update_sprite(game.clan.instructor)
+            update_sprite(game.clan.instructor)
             game.clan.instructor.dead = True
             game.clan.add_cat(game.clan.instructor)
         if other_clans != [""]:
@@ -854,7 +858,7 @@ class Clan:
             game.clan.add_cat(game.clan.instructor)
         else:
             game.clan.instructor = Cat(status=choice(["warrior", "warrior", "elder"]))
-            # update_sprite(game.clan.instructor)
+            update_sprite(game.clan.instructor)
             game.clan.instructor.dead = True
             game.clan.add_cat(game.clan.instructor)
 

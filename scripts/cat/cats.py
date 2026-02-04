@@ -3361,6 +3361,7 @@ class Cat:
             != self.pelt.screen_scale
         ):
             self.pelt.screen_scale = scripts.game_structure.screen_settings.screen_scale
+            update_sprite(self)
             update_mask(self)
         return self._sprite_mask
 
