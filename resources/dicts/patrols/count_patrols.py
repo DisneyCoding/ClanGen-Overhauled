@@ -19,7 +19,7 @@ def get_patrol_details(path):
     global EXPLICIT_PATROL_ART
     patrols = None
 
-    if path == ".\explicit_patrol_art.json":
+    if path == "resources/dicts/patrols/explicit_patrol_art.json":
         with open(path, "r") as read_file:
             EXPLICIT_PATROL_ART = ujson.loads(read_file.read())
     else:
