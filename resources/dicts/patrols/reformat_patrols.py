@@ -144,7 +144,7 @@ def reformat_success_text(path):
         write_file.write(patrols)
 
 
-root_dir = "../patrols"
+root_dir = "resources/lang/en/patrols"
 file_set = set()
 
 for dir_, _, files in os.walk(root_dir):

@@ -128,7 +128,7 @@ def check_patrol_sprites():
     return explicit_sprite, available_sprite, needs_sprite
 
 
-root_dir = "../patrols"
+root_dir = "resources/lang/en/patrols"
 file_set = set()
 
 for dir_, _, files in os.walk(root_dir):
@@ -143,7 +143,7 @@ for dir_, _, files in os.walk(root_dir):
 for pa in file_set:
     get_patrol_details(pa)
 
-path = "../resources"
+path = "resources"
 
 for root, dirs, files in os.walk(path):
     for name in files:
