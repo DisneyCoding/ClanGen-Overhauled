@@ -76,7 +76,7 @@ def get_patrol_details(path):
             DETAILS["MIN_" + str(p_["min_cats"])] = {p_["patrol_id"]}
 
 
-def check_patrol_sprites():
+def check_patrol_sprites(ID):
     explicit_sprite = False
     needs_sprite = False
     available_sprite = False
@@ -183,7 +183,7 @@ if "patrol sprite" in task.casefold():
     needs_patrol_sprite = []
 
     for ID in ALL_PATROLS:
-        explicit, available, need = check_patrol_sprites()
+        explicit, available, need = check_patrol_sprites(ID)
 
         if explicit:
             explicit_art.append(ID)
